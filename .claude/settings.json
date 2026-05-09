@@ -34,8 +34,13 @@
       "Bash(gh repo view:*)",
       "Bash(gh auth status)",
       "Bash(ls:*)",
+      "Bash(pwd)",
       "Bash(unzip -l:*)",
-      "Bash(unzip -p:*)"
+      "Bash(unzip -p:*)",
+      "Bash(git worktree list:*)",
+      "Bash(git worktree remove:*)",
+      "Bash(git worktree prune:*)",
+      "Bash(rm -rf .claude/worktrees/*)"
     ],
     "deny": [
       "Bash(git add:*)",
@@ -52,7 +57,11 @@
       "Bash(git stash:*)",
       "Bash(git tag:*)",
       "Bash(git clean:*)",
-      "Bash(git worktree:*)",
+      "Bash(git worktree add:*)",
+      "Bash(git worktree move:*)",
+      "Bash(git worktree lock:*)",
+      "Bash(git worktree unlock:*)",
+      "Bash(git worktree repair:*)",
       "Bash(git branch -d:*)",
       "Bash(git branch -D:*)",
       "Bash(gh pr create:*)",
@@ -108,6 +117,16 @@
           {
             "type": "command",
             "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/stop-reminder.js\""
+          }
+        ]
+      }
+    ],
+    "WorktreeCreate": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/block-worktree-create.js\""
           }
         ]
       }

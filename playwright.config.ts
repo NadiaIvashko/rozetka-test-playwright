@@ -21,7 +21,7 @@ export default defineConfig({
   use: {
     baseURL: 'https://rozetka.com.ua/',
     locale: 'uk-UA',
-    timezoneId: 'Europe/Kiev',
+    timezoneId: 'Europe/Kyiv',
     trace: 'retain-on-failure',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
