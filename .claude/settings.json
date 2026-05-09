@@ -1,0 +1,116 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "allow": [
+      "Bash(npm install)",
+      "Bash(npm install:*)",
+      "Bash(npm test)",
+      "Bash(npm test:*)",
+      "Bash(npm run typecheck)",
+      "Bash(npm run report)",
+      "Bash(npm run test:*)",
+      "Bash(npx playwright test:*)",
+      "Bash(npx playwright install:*)",
+      "Bash(npx playwright show-report:*)",
+      "Bash(npx playwright show-trace:*)",
+      "Bash(npx tsc --noEmit)",
+      "Bash(npx tsc --noEmit:*)",
+      "Bash(node node_modules/typescript/bin/tsc:*)",
+      "Bash(git status)",
+      "Bash(git status:*)",
+      "Bash(git diff)",
+      "Bash(git diff:*)",
+      "Bash(git log)",
+      "Bash(git log:*)",
+      "Bash(git show)",
+      "Bash(git show:*)",
+      "Bash(git blame)",
+      "Bash(git blame:*)",
+      "Bash(git branch)",
+      "Bash(git branch --show-current)",
+      "Bash(git remote -v)",
+      "Bash(gh pr view:*)",
+      "Bash(gh pr list:*)",
+      "Bash(gh repo view:*)",
+      "Bash(gh auth status)",
+      "Bash(ls:*)",
+      "Bash(unzip -l:*)",
+      "Bash(unzip -p:*)"
+    ],
+    "deny": [
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(git pull:*)",
+      "Bash(git fetch:*)",
+      "Bash(git merge:*)",
+      "Bash(git rebase:*)",
+      "Bash(git reset:*)",
+      "Bash(git restore:*)",
+      "Bash(git checkout:*)",
+      "Bash(git switch:*)",
+      "Bash(git stash:*)",
+      "Bash(git tag:*)",
+      "Bash(git clean:*)",
+      "Bash(git worktree:*)",
+      "Bash(git branch -d:*)",
+      "Bash(git branch -D:*)",
+      "Bash(gh pr create:*)",
+      "Bash(gh pr merge:*)",
+      "Bash(gh pr close:*)",
+      "Bash(gh repo create:*)",
+      "Bash(gh repo delete:*)",
+      "Bash(gh repo fork:*)",
+      "Bash(gh release create:*)",
+      "Bash(gh release delete:*)"
+    ]
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/session-start-context.js\""
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/block-git-writes.js\""
+          },
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/codegen-guard.js\""
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/run-typecheck.js\""
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/stop-reminder.js\""
+          }
+        ]
+      }
+    ]
+  }
+}
